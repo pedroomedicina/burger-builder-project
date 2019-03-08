@@ -23,6 +23,26 @@
     color: #944317;
 }
 
-.Menu{
-    color: white;
+.DrawerToggle {
+    width: 40px !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-flow: column !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 10px 0 !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+}
+
+.DrawerToggle div {
+    width: 90% !important;
+    height: 3px !important;
+    background-color: white !important;
+}
+
+@media (min-width: 500px) {
+    .DrawerToggle {
+        display: none !important;
+    }
 }
