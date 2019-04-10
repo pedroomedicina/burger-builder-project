@@ -54,13 +54,13 @@ class ContactData extends Component {
                 elementtype: 'select',
                 elementconfig: {
                     options: [{
-                            value: 'fastest',
-                            displayValue: 'fastest'
-                        },
-                        {
-                            value: 'cheapest',
-                            displayValue: 'cheapest'
-                        }
+                        value: 'fastest',
+                        displayValue: 'fastest'
+                    },
+                    {
+                        value: 'cheapest',
+                        displayValue: 'cheapest'
+                    }
                     ]
                 },
                 value: ''
@@ -90,48 +90,41 @@ class ContactData extends Component {
     }
 
     render() {
-        let form = ( <
-            form >
-            <
-            Input elementtype = ''
-            elementconfig = ''
-            value = '' / >
-            <
-            Input inputtype = 'input'
-            type = 'text'
-            name = 'email'
-            placeholder = 'Your Email' / >
-            <
-            Input inputtype = 'input'
-            type = 'text'
-            name = 'street'
-            placeholder = 'Street' / >
-            <
-            Input inputtype = 'input'
-            type = 'text'
-            name = 'postal'
-            placeholder = 'Postal Code' / >
-            <
-            Button btnType = 'Success'
-            clicked = {
-                this.orderHandler
-            } > ORDER < /Button> < /
-            form >
-        );
-        if (this.state.loading) {
-            form = < Spinner / > ;
-        }
-        return ( <
-                div className = {
-                    classes.ContactData
-                } >
-                <
-                h4 > Enter your Contact Data < /h4> {
-                form
-            } <
-            /div>
-    )
-}
-}
+        const formElementsArray = [];
 
+        for (let key in this.state.orderForm){
+            formElementsArray.push({
+                id: key,
+                config: this.state.orderForm[key]
+            });
+        }
+
+        let form = (
+            <form>
+                {
+                formElementsArray.map(formElement => (
+                    <Input 
+                    key={formElement.id}
+                    elementtype={formElement.config.elementtype} 
+                    elementconfig={formElement.config.elementconfig} 
+                    value={formElement.config.value} />
+                )
+                )
+                }
+                <Button btnType='Success' clicked={ this.orderHandler }> ORDER </Button>
+            </form >
+            );
+
+        if (this.state.loading) {
+                    form = < Spinner /> ;
+        }
+        
+        return (
+            <div className={classes.ContactData}>
+                <h4> Enter your Contact Data </h4> {form} 
+            </div>
+        )
+    }
+}
+            
 export default ContactData;
