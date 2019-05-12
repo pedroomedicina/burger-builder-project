@@ -27,7 +27,8 @@ class Layout extends Component {
                 <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} isAuth={this.props.isAuth}/>
                 <SideDrawer
                     open={this.state.showSideDrawer}
-                    closed={this.sideDrawerClosedHandler} />
+                    closed={this.sideDrawerClosedHandler}
+                    isAuth={this.props.isAuth} />
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>
