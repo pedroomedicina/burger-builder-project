@@ -23,47 +23,33 @@ export const authFail = (error) => {
 }
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('userId');
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('expirationDate');
+    // localStorage.removeItem('userId');
     return {
-        type: actionTypes.AUTH_LOGOUT
+        type: actionTypes.AUTH_INITIATE_LOGOUT
     }
 };
 
+export const logoutSucceed = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+}
+
 export const checkAuthTimeout = (expirationTime) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(logout());
-        }, expirationTime * 1000 );
+    return {
+        type: actionTypes.AUTH_CHECK_TIMEOUT,
+        expirationTime: expirationTime
     };
 }
 
 export const auth = (email, password, isSignUp) => {
-    return dispatch => {
-        dispatch(authStart());
-        const authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        };
-        let url = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAZo2h_b96SOiTEUAEkflow9sW1I22wTFA";
-        if (!isSignUp){
-            url = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAZo2h_b96SOiTEUAEkflow9sW1I22wTFA";
-
-        }
-        axios.post(url, authData)
-            .then(response => {
-                const expirationDate = new Date( new Date().getTime() + response.data.expiresIn * 1000);
-                localStorage.setItem('token', response.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', response.data.localId);
-                dispatch(authSuccess(response.data.idToken, response.data.localId));
-                dispatch(checkAuthTimeout(response.data.expiresIn));
-            })
-            .catch(err => {
-                dispatch(authFail(err.response.data.error));
-            });
+    return {
+       type: actionTypes.AUTH_USER,
+       email: email,
+       password: password,
+       isSignUp: isSignUp
     };
 }
 
